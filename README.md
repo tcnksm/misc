@@ -1,4 +1,4 @@
-# MISC. [![Go Documentation](http://img.shields.io/badge/go-documentation-blue.svg?style=flat-square)][godocs]
+# MISC. [![Go Documentation](http://img.shields.io/badge/go-documentation-blue.svg?style=flat-square)][godoc]
 
 [godoc]: https://godoc.org/github.com/tcnksm/misc
 
