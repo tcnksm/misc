@@ -13,14 +13,18 @@ package main
 
 import (
 	"bufio"
+	"bytes"
 	"fmt"
 	"io"
 	"log"
 	"os"
+	"regexp"
 	"strings"
 )
 
-var items = []string{"name", "times", "speed", "allocs", "allocs"}
+var items = []string{"name", "times", "ns/op", "B/op", "allocs/op"}
+
+var reNum = regexp.MustCompile(`\d+`)
 
 func main() {
 	var rd io.Reader
@@ -37,9 +41,13 @@ func main() {
 	sc := bufio.NewScanner(rd)
 
 	fmt.Println("| " + strings.Join(items, " | ") + " |")
-	str := "|"
-	for _, item := range items {
-		str += " " + strings.Repeat("-", len(item)) + " |"
+	str := "| :"
+	for i, _ := range items {
+		if i == 0 {
+			str += "---: |"
+			continue
+		}
+		str += " ---: |"
 	}
 	fmt.Println(str)
 
@@ -48,7 +56,18 @@ func main() {
 		if l == "PASS" {
 			break
 		}
+
+		var buf bytes.Buffer
+		fmt.Fprintf(&buf, "|")
 		data := strings.Split(l, "\t")
-		fmt.Println("|" + strings.Join(data, "|") + "|")
+		for j, d := range data {
+			if j == 0 {
+				fmt.Fprintf(&buf, "%s|", strings.TrimSpace(d))
+				continue
+			}
+
+			fmt.Fprintf(&buf, "%s|", reNum.FindString(d))
+		}
+		fmt.Println(buf.String())
 	}
 }
