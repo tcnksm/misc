@@ -13,6 +13,10 @@ https://github.com/deeeet/xxxx
 To use this command, you need to prepare GitHub API Token (with repo priviledge).
 You can set it via TOKEN env var.
 
+To install, use go get,
+
+  $ go get github.com/tcnksm/misc/cmd/sync-github-release
+
 */
 package main
 
