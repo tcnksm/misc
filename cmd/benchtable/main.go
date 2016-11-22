@@ -4,6 +4,8 @@ You can provide benchmark result via stdin or a file.
 
   $ go test -bench . -benchmem | benchtable
 
+See example output on https://gist.github.com/tcnksm/207e60f2e39c2f9b29d6082b1ea020e7
+
 To install it,
 
   $ go get github.com/tcnksm/misc/cmd/benchtable
