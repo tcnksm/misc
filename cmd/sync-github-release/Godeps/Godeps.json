@@ -1,0 +1,27 @@
+{
+	"ImportPath": "github.com/tcnksm/misc/cmd/sync-github-release",
+	"GoVersion": "go1.8",
+	"GodepVersion": "v79",
+	"Deps": [
+		{
+			"ImportPath": "github.com/google/go-github/github",
+			"Rev": "a1746f282059a5d71c4d8a270753698e164151e5"
+		},
+		{
+			"ImportPath": "github.com/google/go-querystring/query",
+			"Rev": "9235644dd9e52eeae6fa48efd539fdc351a0af53"
+		},
+		{
+			"ImportPath": "golang.org/x/net/context",
+			"Rev": "a6577fac2d73be281a500b310739095313165611"
+		},
+		{
+			"ImportPath": "golang.org/x/oauth2",
+			"Rev": "1e695b1c8febf17aad3bfa7bf0a819ef94b98ad5"
+		},
+		{
+			"ImportPath": "golang.org/x/oauth2/internal",
+			"Rev": "1e695b1c8febf17aad3bfa7bf0a819ef94b98ad5"
+		}
+	]
+}
