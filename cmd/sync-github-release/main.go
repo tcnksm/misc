@@ -54,14 +54,32 @@ func main() {
 	client := github.NewClient(tc)
 
 	// List all releases on upstream repository
-	srcReleases, _, err := client.Repositories.ListReleases(srcOwner, repo, nil)
-	if err != nil {
-		log.Fatal(err)
+	var srcReleases []*github.RepositoryRelease
+	opt := &github.ListOptions{PerPage: 100}
+	for {
+		releases, resp, err := client.Repositories.ListReleases(srcOwner, repo, opt)
+		if err != nil {
+			log.Fatal(err)
+		}
+		srcReleases = append(srcReleases, releases...)
+		if resp.NextPage == 0 {
+			break
+		}
+		opt.Page = resp.NextPage
 	}
 
-	distReleases, _, err := client.Repositories.ListReleases(distOwner, repo, nil)
-	if err != nil {
-		log.Fatal(err)
+	var distReleases []*github.RepositoryRelease
+	opt = &github.ListOptions{PerPage: 100}
+	for {
+		releases, resp, err := client.Repositories.ListReleases(distOwner, repo, opt)
+		if err != nil {
+			log.Fatal(err)
+		}
+		distReleases = append(distReleases, releases...)
+		if resp.NextPage == 0 {
+			break
+		}
+		opt.Page = resp.NextPage
 	}
 
 	// Create release which is on upsteram on fork repository
@@ -74,7 +92,7 @@ func main() {
 		}
 
 		log.Println("Sync", *release.TagName)
-		_, _, err = client.Repositories.CreateRelease(distOwner, repo, &github.RepositoryRelease{
+		_, _, err := client.Repositories.CreateRelease(distOwner, repo, &github.RepositoryRelease{
 			Name:       release.TagName,
 			TagName:    release.TagName,
 			Body:       release.Body,
