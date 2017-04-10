@@ -18,13 +18,13 @@ To install, use go get,
 package main
 
 import (
-	"context"
 	"log"
 	"os"
 	"strconv"
 	"strings"
 
 	"github.com/google/go-github/github"
+	"golang.org/x/net/context"
 	"golang.org/x/oauth2"
 )
 
