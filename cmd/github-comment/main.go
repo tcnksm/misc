@@ -18,8 +18,10 @@ To install, use go get,
 package main
 
 import (
+	"context"
 	"log"
 	"os"
+	"strconv"
 	"strings"
 
 	"github.com/google/go-github/github"
@@ -39,10 +41,15 @@ func main() {
 		log.Fatal("You need GitHub API token via GITHUB_TOKEN env var")
 	}
 
-	org, repo, number := os.Args[1], os.Args[2], os.Args[3]
+	owner, repo := os.Args[1], os.Args[2]
+	issueNumber, err := strconv.Atoi(os.Args[3])
+	if err != nil {
+		log.Fatalf("[ERROR] Issue number must be int: %e", err)
+	}
+
 	body := strings.Join(os.Args[4:], " ")
-	log.Printf("[INFO] Create a comment %q on https://github.com/%s/%s/pull/%s",
-		body, org, repo, number,
+	log.Printf("[INFO] Create a comment %q on https://github.com/%s/%s/issues/%d",
+		body, owner, repo, issueNumber,
 	)
 
 	// Construct github HTTP client
@@ -51,5 +58,24 @@ func main() {
 	})
 	tc := oauth2.NewClient(oauth2.NoContext, ts)
 	client := github.NewClient(tc)
-	_ = client
+
+	// Check there are no same comments
+	comments, _, err := client.Issues.ListComments(context.Background(), owner, repo, issueNumber, nil)
+	if err != nil {
+		log.Fatalf("[ERROR] Failed to get comments: %s", err)
+	}
+	for _, c := range comments {
+		if c.GetBody() == body {
+			log.Printf("[INFO] comment %q was already posted, skip it", body)
+			os.Exit(0)
+		}
+	}
+
+	if _, _, err := client.Issues.CreateComment(context.Background(), owner, repo, issueNumber, &github.IssueComment{
+		Body: &body,
+	}); err != nil {
+		log.Fatalf("[ERROR] Failed to create comment: %s", err)
+	}
+
+	log.Printf("[INFO] Successfully created a comment!")
 }
