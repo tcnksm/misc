@@ -11,6 +11,7 @@ To install, use go get,
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net/http"
@@ -26,19 +27,19 @@ func main() {
 	}
 
 	var (
-		appIntegrationID  int
-		appInstallationID int
+		appIntegrationID  int64
+		appInstallationID int64
 
 		err error
 	)
 	appIntegrationIDstr, appInstallationIDstr, rsaPrivateKeyPemPath := os.Args[1], os.Args[2], os.Args[3]
 
-	appIntegrationID, err = strconv.Atoi(appIntegrationIDstr)
+	appIntegrationID, err = strconv.ParseInt(appIntegrationIDstr, 0, 64)
 	if err != nil {
 		log.Fatalf("[ERROR] INTEGRATION ID must be number: %s", err)
 	}
 
-	appInstallationID, err = strconv.Atoi(appInstallationIDstr)
+	appInstallationID, err = strconv.ParseInt(appInstallationIDstr, 0, 64)
 	if err != nil {
 		log.Fatalf("[ERROR] INSTALLATION ID must be number: %s", err)
 	}
@@ -53,7 +54,7 @@ func main() {
 		log.Fatalf("[ERRRO] Failed to create new trasport: %s\n", err)
 	}
 
-	token, err := itr.Token()
+	token, err := itr.Token(context.Background())
 	if err != nil {
 		log.Fatalf("[ERRRO] Failed to get token: %s\n", err)
 	}
