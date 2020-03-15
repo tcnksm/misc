@@ -17,7 +17,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	dir = "/var/folders/bk/88q3ywjn3m1d4sxcfxt3nx7r0000gp/T/clone-example420022365"
+	dir = " /var/folders/bk/88q3ywjn3m1d4sxcfxt3nx7r0000gp/T/clone-example49008976"
 	// defer os.RemoveAll(dir) // clean up
 
 	// Clones the repository into the given dir, just as a normal git clone does
