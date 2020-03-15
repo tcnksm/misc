@@ -13,12 +13,12 @@ import (
 func main() {
 	// Tempdir to clone the repository
 	dir, err := ioutil.TempDir("", "clone-example")
-	log.Println(dir)
 	if err != nil {
 		log.Fatal(err)
 	}
-	dir = " /var/folders/bk/88q3ywjn3m1d4sxcfxt3nx7r0000gp/T/clone-example49008976"
+	dir = "/var/folders/bk/88q3ywjn3m1d4sxcfxt3nx7r0000gp/T/clone-example982624387"
 	// defer os.RemoveAll(dir) // clean up
+	log.Println(dir)
 
 	// Clones the repository into the given dir, just as a normal git clone does
 	start := time.Now()
