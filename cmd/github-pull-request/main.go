@@ -23,6 +23,7 @@ import (
 	"log"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/google/go-github/v31/github"
 	"golang.org/x/oauth2"
@@ -43,6 +44,11 @@ var (
 	baseF  = flag.String("base", "master", "")
 	titleF = flag.String("title", "", "")
 	bodyF  = flag.String("body", "", "")
+
+	// Hidden flag to specify wait time between PR creation and extra work (e.g., labeling).
+	// This can be used to avoid race condition of the actions kickded by Github webhook events
+	// (action by PR creation and action by label adding).
+	sleep = flag.Duration("sleep", 0*time.Second, "")
 )
 
 func main() {
@@ -93,6 +99,7 @@ func main() {
 		log.Fatalf("[ERROR] Faield to create a PR: %s", err)
 	}
 	log.Printf("[INFO] Successfully created a PR: %s", *pr.HTMLURL)
+	time.Sleep(*sleep)
 
 	if len(labels) > 0 {
 		_, _, err := client.Issues.AddLabelsToIssue(ctx, owner, repo, *pr.Number, labels)
