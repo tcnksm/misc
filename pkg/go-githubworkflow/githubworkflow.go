@@ -47,7 +47,6 @@ type CreatePullRequestRequest struct {
 	Branch string
 	Title  string
 	Body   string
-	Draft  bool
 }
 
 type CreatePullRequestResponse struct {
@@ -132,7 +131,6 @@ func (c *client) CreatePullRequest(ctx context.Context, req *CreatePullRequestRe
 		Base:                github.String(req.Base),
 		Body:                github.String(req.Body),
 		MaintainerCanModify: github.Bool(true),
-		Draft:               github.Bool(req.Draft),
 	})
 	if err != nil {
 		return nil, fmt.Errorf("failed to create PR: %s", err)
