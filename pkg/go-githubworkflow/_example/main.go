@@ -65,7 +65,6 @@ func main() {
 		Branch: branch,
 		Title:  "This is test PR",
 		Body:   `This PR is created by go-githubworkflow`,
-		Draft:  false,
 	})
 
 	if err != nil {
