@@ -1,4 +1,4 @@
-module github.com/tcnksm/misc/cmd/github-comment
+module github.com/tcnksm/misc/cmd/github-label
 
 go 1.14
 
